@@ -1,0 +1,33 @@
+import glob                                           #The glob module finds all the pathnames matching a specified pattern
+
+def Get_EDI_File_Listing():                           #This function will get the files and stored them into a list called (Filenames)
+  global Filenames
+  Filenames = []
+  Filenames = glob.glob("*.EDI")
+
+def Archive_File(Filename):                           #this  function opens Filename variable for read
+  InFile = open(Filename,"r")                         #this line sets variable Archive_Filename to be a new dir(Archive) + the content of Filename
+  Archive_Filename = "Archive\\"+Filename
+  OutFile = open(Archive_Filename,"w")
+  for Record in InFile:
+    OutFile.write(Record)
+  InFile.close()
+  OutFile.close()
+
+def Read_File(Filename):                             #this function opens Filename to be read and prints each file to the screen 
+  InFile = open(Filename,"r")
+  for Record in InFile:
+    print(Record)
+  InFile.close()
+  
+def Process_EDI_Files():                             #this function iterates thru the indexes  of each record in Filenames
+  for Index in range(len(Filenames)):                #Filename is then set to be the location (indexes) of each record in Filenames
+    Filename = Filenames[Index]
+    Archive_File(Filename)                           #Archive_File fuction is then called on the variable Filename which consist of the indexes of each record in Filenames variable
+    Read_File(Filename)                              #Read_File fucntion is then called on Filename variable which prints each record
+
+def Main():
+  Get_EDI_File_Listing()                             # this function calls on Get_EDI_Listing() function and Process_EDI_Files() function in one function 
+  Process_EDI_Files()
+
+Main()
